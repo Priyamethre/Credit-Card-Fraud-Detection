@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
+
 """
-streamlit demo for real time
+streamlit 
 """
 import streamlit as st
 
