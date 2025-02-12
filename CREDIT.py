@@ -1,35 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Feb  9 16:57:01 2025
-
-
-           CREDIT CARD FRAUD DETECTION
-
-BUSINESS PROBLEM : Credit card fraud is a major financial risk for banks, businesses, 
-and customers, leading to billions of dollars in losses annually. Traditional fraud 
-detection methods rely on rule-based systems, which often fail to adapt to evolving 
-fraud patterns.
-
-This project aims to automate fraud detection using machine learning, improving
- fraud detection accuracy while reducing false positives. A well-trained model 
- can help banks and financial institutions detect suspicious transactions 
- in real time, preventing unauthorized payments and reducing financial fraud.
-
-# BUSINESS OBJECTIVE  : Minimizing financial losses and protecting customers from fraud.
-# BUSINESS CONSTRAINT : Minimize computational costs while ensuring scalability for high transaction volumes.
-    
-    
-# SUCCESS CRITERIA
-
-# BUSINESS CRITERIA :  Ensuring that most fraud cases are identified accurately.
-
-# ML CRITERIA       :  Achieve an accuracy of atleast 90%
-    
-# ECONOMIC CRITERIA : The model should help banks reduce financial fraud losses.
-
-
-"""
-
+# CREDIT CARD FRAUD DETECTION
 
 import pandas as pd 
 import numpy as np 
@@ -51,8 +20,7 @@ from sqlalchemy import create_engine
 from urllib.parse import quote
 
 # Importing  dataset using pandas
-df = pd.read_csv(r"C:\Users\priya\OneDrive\Desktop\PRIYA\internship at 360 digitmg\CREDIT CARD\creditcard.csv\creditcard.csv")
-
+df = pd.read_csv("creditcard.csv")
 
 df.info()
 
@@ -147,7 +115,7 @@ plt.show()
 # Some transactions extend beyond $25,000, but they are rare.
 
 # Time vs. Fraudulent Transactions
-# 📌 Goal: Identify fraud patterns based on transaction time of day.
+#  Goal: Identify fraud patterns based on transaction time of day.
 
 
 plt.figure(figsize=(8, 5))
@@ -164,7 +132,7 @@ plt.show()
 
 
 # Box Plot of Transaction Amounts
-# 📌 Goal: See outliers in transaction amounts for fraud vs. non-fraud.
+#  Goal: See outliers in transaction amounts for fraud vs. non-fraud.
 
 plt.figure(figsize=(8, 5))
 sns.boxplot(x='Class', y='Amount', data=df, palette=['blue', 'red'])
@@ -181,7 +149,7 @@ plt.show()
 
 
 # PCA (Principal Component Analysis) Scatter Plot
-# 📌 Goal: Reduce dimensions & visualize fraud vs. non-fraud transactions in 2D
+#  Goal: Reduce dimensions & visualize fraud vs. non-fraud transactions in 2D
 
 from sklearn.decomposition import PCA
 
@@ -203,7 +171,7 @@ plt.show()
 
 
 # Feature Distribution for Fraud vs. Non-Fraud
-# 📌 Goal: Compare key feature distributions for fraudulent vs. non-fraudulent transactions.
+#  Goal: Compare key feature distributions for fraudulent vs. non-fraudulent transactions.
 
 plt.figure(figsize=(10, 5))
 sns.violinplot(x='Class', y='V1', data=df, palette=['blue', 'red'])
@@ -325,24 +293,6 @@ sns.heatmap(cm,
             linewidths=.2,linecolor="Darkblue", cmap="Blues")
 plt.title('Confusion Matrix', fontsize=14)
 plt.show()
-
-
-""" Type I error and Type II error
-We need to clarify that confussion matrix are not a very good tool to represent the results in the case 
-of largely unbalanced data, because we will actually need a different metrics that 
-accounts in the same time for the selectivity and specificity of the method we are 
-using, so that we minimize in the same time both Type I errors and Type II errors.
-
-Null Hypothesis (H0) - The transaction is not a fraud.
-Alternative Hypothesis (H1) - The transaction is a fraud.
-
-Type I error - You reject the null hypothesis when the null hypothesis is actually true.
-Type II error - You fail to reject the null hypothesis when the the alternative hypothesis is true.
-
-Cost of Type I error - You erroneously presume that the the transaction is a fraud, and a true transaction is rejected.
-Cost of Type II error - You erroneously presume that the transaction is not a fraud and a ffraudulent transaction is accepted.
-
-"""
 
 
 # Area under curve
@@ -499,65 +449,12 @@ joblib.dump(model1, "xgboost_fraud_model.pkl")
 
 
 """ CONCLUSION
-
-
-We investigated the data, checking for data unbalancing, visualizing the features and 
-understanding the relationship between different features. We then investigated two 
-predictive models. The data was split in 3 parts, a train set, a validation set and 
-a test set. For the first two models, we only used the train and test set.
-
-We started with RandomForrestClassifier, for which we obtained an AUC scode of 0.85 when 
-predicting the target for the test set.
-
-We followed with an AdaBoostClassifier model, with lower AUC score (0.83) for 
-prediction of the test set target values.
-
-We then experimented with a XGBoost model. In this case, se used the validation set
-for validation of the training model. The best validation score obtained was 0.984. 
-Then we used the model with the best training step, to predict target value from the
-test data; the AUC score obtained was 0.980.
-
-
-RandomForestClassifier: AUC score on the test set: 0.8723
-
-AdaBoostClassifier : AUC score on the test set: 0.8767
-
-DecisionTreeClassifier:
-AUC score on the validation set: 0.9169
-AUC score on the test set: 0.9369
-
-XGBoost Model:
-Validation AUC score: 0.984
-Test AUC score: 0.9776
-
-
 XGBoost shows a very high validation (0.984) and test AUC (0.977), meaning it generalizes well.
 Decision Tree’s test AUC (0.9369) is slightly better than Random Forest (0.8723) but 
 worse than XGBoost, indicating it may be overfitting slightly on the training data due to high variance.
 Random Forest and AdaBoost show lower performance compared to XGBoost, meaning they 
 might be underfitting compared to a more optimized model.
 
-
-XGBoost is the best-performing model with high test AUC (0.977), meaning it generalizes 
-well.
-Decision Tree might be slightly overfitting compared to ensemble models, as its 
-test AUC is lower than its training performance.
-Random Forest and AdaBoost may not be capturing complex patterns as effectively as 
-XGBoost.
-
-Your XGBoost model is not overfitting because:
-
-Validation AUC = 0.984
-Test AUC = 0.977
-Since the validation and test AUC scores are very close, 
-this means the model is generalizing well. If there was overfitting, the validation 
-AUC would be much higher than the test AUC, but here, the difference is very small 
-(only 0.004).
-
-If the model was underfitting, its performance would be much lower, similar to the 
-Random Forest  or AdaBoost .
-
 Final Verdict: XGBoost is the best model for fraud detection due to its superior generalization, high AUC, and ability to handle imbalanced data. 
-
 """
 
