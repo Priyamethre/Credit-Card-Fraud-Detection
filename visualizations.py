@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Feb 10 18:48:14 2025
 
-@author: priya
 """
 
 import streamlit as st
