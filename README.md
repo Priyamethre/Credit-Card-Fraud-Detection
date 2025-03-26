@@ -1,6 +1,6 @@
 
 # Credit Card Fraud Detection System
--- Overview
+# Overview
 Credit card fraud is a major financial risk for banks, businesses, and customers, leading to billions of dollars in losses annually. Traditional fraud detection methods rely on rule-based systems, which often fail to adapt to evolving fraud patterns.
 This project leverages Machine Learning (ML) to build an automated fraud detection system that can identify fraudulent transactions with high accuracy while minimizing false positives.
 
